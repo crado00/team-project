@@ -37,7 +37,7 @@ public class UserService {
         u.setEmail(req.getEmail());
         u.setFullName(req.getFullName());
         u.setResidentialArea(req.getResidentialArea());
-        u.setBio(req.getSelfIntroduction());
+        u.setSelfIntroduction(req.getSelfIntroduction());
         u.setProfileImageUrl(req.getProfileImageUrl());
 
         return UserResponse.from(u);

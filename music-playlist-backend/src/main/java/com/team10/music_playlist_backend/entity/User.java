@@ -37,7 +37,7 @@ public class User implements UserDetails {
     private String fullName;
 
     @Column(length = 1000)
-    private String bio;
+    private String selfIntroduction;
 
     private String residentialArea;
 
