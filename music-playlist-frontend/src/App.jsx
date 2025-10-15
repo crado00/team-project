@@ -1,9 +1,14 @@
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import Profile from "./pages/profile";
+
 const App = () => {
 
   return (
-    <div>
-      <h1>Vite + React</h1>
-    </div>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/profile" element={<Profile />} />
+        </Routes>
+      </BrowserRouter>
   )
 }
 
