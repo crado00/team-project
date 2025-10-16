@@ -1,6 +1,7 @@
 import Avatar from "../common/Avatar";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import Button from "../common/Button";
 
 const ProfileInfo = ({ user, playListSize, onEditProfile }) => {
 
@@ -22,12 +23,7 @@ const ProfileInfo = ({ user, playListSize, onEditProfile }) => {
               </div>
             </div>
             <div className="self-center mr-3">
-              <button
-                onClick={onEditProfile}
-                className="px-4 py-1 border border-gray-300 rounded-md text-sm font-medium hover:bg-gray-50"
-              >
-                Edit Profile
-              </button>
+              <Button onClick={onEditProfile} title="Edit Profile" />
             </div>
             
         </div>

@@ -1,9 +1,9 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import ProfileInfo from "../components/profile/ProfileInfo";
-import ProfilePlayList from "../components/profile/ProfilePlayList";
+import ProfilePlayList from "../components/play-list/ProfilePlayList";
 import useUserStore from "../store/userstore";
-import EditProfile from "./editProfile";
+import EditProfile from "../components/profile/editProfile";
 
 const Profile = () => {
   const { userId } = useParams();

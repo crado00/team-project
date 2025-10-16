@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { FiX } from "react-icons/fi";
-import userService from "../services/user";
+import userService from "../../services/user";
 // import useAuthStore from "../store/authStore";
 
 const EditProfile = ({ onClose, currentProfile }) => {
