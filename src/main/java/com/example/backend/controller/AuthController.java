@@ -23,9 +23,6 @@ public class AuthController {
         return ResponseEntity.ok(new JwtResponse(token));
     }
 
-    // 로그아웃 API는 JWT 구조상 필요 없음.
-    // 프론트에서 토큰을 삭제하면 로그아웃됨.
-
     @Data
     static class SignupRequest { String username; String password; }
     @Data
