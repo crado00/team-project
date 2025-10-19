@@ -25,12 +25,12 @@ const Profile = () => {
 
     const deletePlayList = (id) => {
       setPlayList(playlist.filter((pl) => pl.id !== id));
+      
       //임시
     }
 
     const createPlayList = (newPlayList) => {
       setIsCreatePlayListModalOpen(true);
-      //임시
     }
 
     useEffect(() => {

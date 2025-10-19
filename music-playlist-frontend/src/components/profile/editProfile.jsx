@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { FiX } from "react-icons/fi";
 import userService from "../../services/user";
+import Avatar from "../common/Avatar";
 // import useAuthStore from "../store/authStore";
 
 const EditProfile = ({ onClose, currentProfile }) => {
@@ -97,6 +98,10 @@ const EditProfile = ({ onClose, currentProfile }) => {
 
         {/* Form */}
         <form onSubmit={handleSubmit} className="p-4 flex flex-col gap-4">
+          <div className="flex flex-col justify-center items-center space-y-3">
+            <Avatar size="large" className="self-center" />
+            <p className="text-center text-2xl">{formData.username || "user"}</p>
+          </div>
           {error && (
             <div className="text-red-500 bg-red-100 border border-red-300 p-2 rounded-md">
               {error}
