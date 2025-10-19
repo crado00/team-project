@@ -24,7 +24,7 @@ public class AuthService {
         if (userOpt.isEmpty()) throw new RuntimeException("User not found");
 
         User user = userOpt.get();
-        if (!encoder.matches(password, user.getPasswordHash())) {
+        if (!encoder.matches(password, user.getPassword())) {
             throw new RuntimeException("Invalid password");
         }
 
@@ -37,7 +37,7 @@ public class AuthService {
 
         User u = new User();
         u.setUsername(username);
-        u.setPasswordHash(encoder.encode(password));
+        u.setPassword(encoder.encode(password));
         userRepository.save(u);
     }
 }
