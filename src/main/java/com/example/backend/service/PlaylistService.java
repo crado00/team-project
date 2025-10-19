@@ -23,33 +23,18 @@ public class PlaylistService {
                 .orElseThrow(() -> new ResourceNotFoundException("사용자를 찾을 수 없습니다."));
 
         Playlist playlist = Playlist.builder()
-                .name(request.getName())
+                .userId(request.getName())
                 .description(request.getDescription())
-                .coverImageUrl(request.getCoverImageUrl())
+                .ImageUrl(request.getCoverImageUrl())
                 .user(user)
                 .build();
-
-//        if (request.getMusics() != null) {
-//            request.getMusics().forEach(songDto -> {
-//                Music music = Music.builder()
-//                        .title(songDto.getTitle())
-//                        .artist(songDto.getArtist())
-//                        .album(songDto.getAlbum())
-//                        .genre(songDto.getGenre())
-//                        .duration(songDto.getDuration())
-//                        .youtubeUrl(songDto.getYoutubeUrl())
-//                        .playlist(playlist)
-//                        .build();
-//                playlist.getMusics().add(song);
-//            });
-//        }
 
         playlistRepository.save(playlist);
         return mapToResponse(playlist);
     }
 
     public List<PlaylistResponse> getUserPlaylists(Long userId) {
-        List<Playlist> playlists = playlistRepository.findByUserId(userId);
+        List<Playlist> playlists = playlistRepository.findById(userId);
         return playlists.stream().map(this::mapToResponse).collect(Collectors.toList());
     }
 
@@ -60,25 +45,49 @@ public class PlaylistService {
     }
 
     @Transactional
+    public PlaylistResponse updatePlaylist(Long playlistId, Long userId, PlaylistRequest request) {
+        Playlist playlist = playlistRepository.findById(playlistId)
+                .orElseThrow(() -> new ResourceNotFoundException("플레이리스트를 찾을 수 없습니다."));
+
+        if (!playlist.getUserId().equals(userId)) {
+            throw new RuntimeException("수정 권한이 없습니다.");
+        }
+        if (request.getName() != null && !request.getName().isBlank()) {
+            playlist.setUserId(request.getName());
+        }
+        if (request.getDescription() != null) {
+            playlist.setExplanation(request.getDescription());
+        }
+        if (request.getCoverImageUrl() != null) {
+            playlist.setImageUrl(request.getCoverImageUrl());
+        }
+
+        Playlist updated = playlistRepository.save(playlist);
+        return mapToResponse(updated);
+    }
+
+    @Transactional
     public void deletePlaylist(Long playlistId, Long userId) {
         Playlist playlist = playlistRepository.findById(playlistId)
                 .orElseThrow(() -> new ResourceNotFoundException("플레이리스트를 찾을 수 없습니다."));
-        if (!playlist.getUser().getId().equals(userId)) {
+
+        if (!playlist.getUserId().equals(userId)) {
             throw new RuntimeException("삭제 권한이 없습니다.");
         }
+
         playlistRepository.delete(playlist);
     }
 
-//    private PlaylistResponse mapToResponse(Playlist playlist) {
-//        List<MusicResponse> MusicResponses = playlist.getMusics().stream()
-//                .map(song -> new MusicResponse(
-//                        song.getTitle(),
-//                        song.getArtist(),
-//                        song.getAlbum(),
-//                        song.getGenre(),
-//                        song.getDuration(),
-//                        song.getYoutubeUrl()))
-//                .collect(Collectors.toList());
+    private PlaylistResponse mapToResponse(Playlist playlist) {
+        // List<MusicResponse> musicResponses = playlist.getMusics().stream()
+        //         .map(music -> new MusicResponse(
+        //                 music.getTitle(),
+        //                 music.getArtist(),
+        //                 music.getAlbum(),
+        //                 music.getGenre(),
+        //                 music.getDuration(),
+        //                 music.getYoutubeUrl()))
+        //         .collect(Collectors.toList());
 
         return new PlaylistResponse(
                 playlist.getId(),
@@ -86,7 +95,7 @@ public class PlaylistService {
                 playlist.getDescription(),
                 playlist.getCoverImageUrl(),
                 playlist.getUser().getNickname(),
-                MusicResponses
+                null // musicResponses
         );
     }
 }

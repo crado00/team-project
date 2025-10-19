@@ -12,10 +12,24 @@ public class User {
     private Long id;
 
     @Column(unique = true, nullable = false)
-    private String username;
+    private String FullName;
+
+    @Column(unique = true, nullable = false)
+    private String Username;
+
+    @Column(unique = true, nullable = false)
+    private String Email;
 
     @Column(nullable = false)
-    private String passwordHash;
+    private String password;
 
-    private String nickname;
+    @Column(nullable = false)
+    private String ResidentialArea;
+
+    @Column(nullable = true)
+    private String SelfIntroduction;
+
+    @Column(nullable = true)
+    private String profileImageUrl;
+
 }

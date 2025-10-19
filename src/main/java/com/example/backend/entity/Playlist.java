@@ -18,14 +18,13 @@ public class Playlist {
     private Long id;
 
     @Column(name = "playlist_user_id", nullable = false)
-    private Long userId; // 소유자 ID
+    private Long userId;
 
     @Column(name = "explanation", columnDefinition = "TEXT")
-    private String explanation; // 설명
-
+    private String explanation;
     @Column(name = "title", nullable = false)
-    private String title; // 제목
+    private String title;
 
     @Column(name = "imageUrl")
-    private String imageUrl; // 이미지 URL
+    private String imageUrl;
 }
