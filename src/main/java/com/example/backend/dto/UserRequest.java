@@ -6,23 +6,15 @@ import lombok.*;
 @Getter @Setter
 @NoArgsConstructor @AllArgsConstructor @Builder
 public class UserRequest {
-    private Long id;
     private String username;
     private String email;
     private String fullName;
-    private String residentialArea;
-    private String selfIntroduction;
-    private String profileImageUrl;
 
     public static UserRequest from(User user) {
         return UserRequest.builder()
-                .id(user.getId())
                 .username(user.getUsername())
                 .email(user.getEmail())
                 .fullName(user.getFullName())
-                .residentialArea(user.getResidentialArea())
-                .selfIntroduction(user.getSelfIntroduction())
-                .profileImageUrl(user.getProfileImageUrl())
                 .build();
     }
 }

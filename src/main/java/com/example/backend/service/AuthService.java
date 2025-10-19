@@ -35,9 +35,9 @@ public class AuthService {
         if (userRepository.existsByUsername(username))
             throw new RuntimeException("Username already exists");
 
-        User u = new User();
-        u.setUsername(username);
-        u.setPassword(encoder.encode(password));
-        userRepository.save(u);
+        User user = new User();
+        user.setUsername(username);
+        user.setPassword(encoder.encode(password));
+        userRepository.save(user);
     }
 }
