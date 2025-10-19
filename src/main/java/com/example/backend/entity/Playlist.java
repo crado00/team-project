@@ -3,25 +3,29 @@ package com.example.backend.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Entity
-@Getter @Setter
-@NoArgsConstructor @AllArgsConstructor @Builder
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@Table(name = "playlists")
 public class Playlist {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "playlist_id")
     private Long id;
 
-    private String name;
-    private String description;
-    private String coverImageUrl;
+    @Column(name = "playlist_user_id", nullable = false)
+    private Long userId; // 소유자 ID
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private User user;
+    @Column(name = "explanation", columnDefinition = "TEXT")
+    private String explanation; // 설명
 
-//    @OneToMany(mappedBy = "playlist", cascade = CascadeType.ALL, orphanRemoval = true)
-//    private List<Music> Musics = new ArrayList<>();
+    @Column(name = "title", nullable = false)
+    private String title; // 제목
+
+    @Column(name = "imageUrl")
+    private String imageUrl; // 이미지 URL
 }
