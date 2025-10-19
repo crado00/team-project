@@ -14,15 +14,15 @@ public class UserRequest {
     private String selfIntroduction;
     private String profileImageUrl;
 
-    public static UserRequest from(User u) {
+    public static UserRequest from(User user) {
         return UserRequest.builder()
-                .id(u.getId())
-                .username(u.getUsername())
-                .email(u.getEmail())
-                .fullName(u.getFullName())
-                .residentialArea(u.getResidentialArea())
-                .selfIntroduction(u.getSelfIntroduction())
-                .profileImageUrl(u.getProfileImageUrl())
+                .id(user.getId())
+                .username(user.getUsername())
+                .email(user.getEmail())
+                .fullName(user.getFullName())
+                .residentialArea(user.getResidentialArea())
+                .selfIntroduction(user.getSelfIntroduction())
+                .profileImageUrl(user.getProfileImageUrl())
                 .build();
     }
 }
