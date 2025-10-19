@@ -1,6 +1,8 @@
 package com.team10.music_playlist_backend.service;
 
+import com.team10.music_playlist_backend.dto.SongCharacteristicResponse;
 import com.team10.music_playlist_backend.dto.SongDetailsResponse;
+import com.team10.music_playlist_backend.dto.SongLyricsResponse;
 import com.team10.music_playlist_backend.entity.Music;
 import com.team10.music_playlist_backend.exception.ResourceNotFoundException;
 import com.team10.music_playlist_backend.repository.MusicRepository;
@@ -19,4 +21,19 @@ public class MusicService {
                 .orElseThrow(() -> new ResourceNotFoundException("해당 곡을 찾을 수 없습니다."));
         return SongDetailsResponse.from(m);
     }
+
+    @Transactional(readOnly = true)
+    public SongCharacteristicResponse getSongCharacteristic(Long songId){
+        Music m = musicRepository.findById(songId)
+                .orElseThrow(() -> new ResourceNotFoundException("해당 곡을 찾을 수 없습니다."));
+        return SongCharacteristicResponse.from(m);
+    }
+
+    @Transactional(readOnly = true)
+    public SongLyricsResponse getSongLyrics(Long songId){
+        Music m = musicRepository.findById(songId)
+                .orElseThrow(() -> new ResourceNotFoundException("해당 곡을 찾을 수 없습니다."));
+        return SongLyricsResponse.from(m);
+    }
+
 }

@@ -25,4 +25,12 @@ public class Music {
 
     @Column(name = "release_date")
     private LocalDate releaseDate;
+
+    private Integer bpm;
+
+    @Column(name = "song_key")
+    private String key;
+
+    @Column(columnDefinition = "TEXT")
+    private String lyrics;
 }
