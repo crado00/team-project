@@ -1,8 +1,5 @@
 package com.example.backend.config;
 
-import com.example.backend.repository.UserRepository;
-import com.example.backend.security.JwtFilter;
-import com.example.backend.security.JwtUtil;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -12,24 +9,19 @@ import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 public class SecurityConfig {
-    private final JwtUtil jwtUtil;
-    private final UserRepository userRepository;
-
-    public SecurityConfig(JwtUtil jwtUtil, UserRepository userRepository) {
-        this.jwtUtil = jwtUtil;
-        this.userRepository = userRepository;
-    }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(csrf -> csrf.disable())
+                // 요청별 접근 권한 설정
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/auth/**").permitAll()
-                        .anyRequest().authenticated()
+                        .requestMatchers("/api/auth/**", "/api/public/**").permitAll()
+                        .anyRequest().permitAll()
                 )
-                .addFilterBefore(new JwtFilter(jwtUtil, userRepository),
-                        org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter.class);
+                // 세션 기반 인증 (JWT 제거 시 기본값)
+                .formLogin(login -> login.disable())
+                .httpBasic(basic -> basic.disable());
 
         return http.build();
     }

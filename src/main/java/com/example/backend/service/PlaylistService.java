@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -23,9 +24,9 @@ public class PlaylistService {
                 .orElseThrow(() -> new ResourceNotFoundException("사용자를 찾을 수 없습니다."));
 
         Playlist playlist = Playlist.builder()
-                .name(request.getName())
-                .description(request.getDescription())
-                .coverImageUrl(request.getCoverImageUrl())
+                .title(request.getTitle())
+                .explanation(request.getExplanation())
+                .imageUrl(request.getImageUrl())
                 .user(user)
                 .build();
 
@@ -60,7 +61,7 @@ public class PlaylistService {
     }
 
     @Transactional
-    public void deletePlaylist(Long playlistId, Long userId) {
+    public void deletePlaylist(Long playlistId, String userId) {
         Playlist playlist = playlistRepository.findById(playlistId)
                 .orElseThrow(() -> new ResourceNotFoundException("플레이리스트를 찾을 수 없습니다."));
         if (!playlist.getUser().getId().equals(userId)) {
@@ -88,4 +89,57 @@ public class PlaylistService {
                 MusicResponses
         );
     }
+
+    @Transactional
+    public Playlist editPlaylist(Long playlistId, PlaylistEditRequest request, String userId) {
+        Playlist playlist = playlistRepository.findById(playlistId)
+                .orElseThrow(() -> new ResourceNotFoundException("플레이리스트를 찾을 수 없습니다."));
+
+        // 본인 소유 확인
+        if (!playlist.getOwner().getId().equals(userId)) {
+            throw new UnauthorizedException("이 플레이리스트를 수정할 권한이 없습니다.");
+        }
+
+        if (request.getTitle() != null && !request.getTitle().isBlank()) {
+            playlist.setTitle(request.getTitle());
+        }
+
+        if (request.getExplanation() != null) {
+            playlist.setExplanation(request.getExplanation());
+        }
+
+        if (request.getMusicIds() != null && !request.getMusicIds().isEmpty()) {
+            List<Music> musics = musicRepository.findAllById(request.getMusicIds());
+
+            Map<Long, Music> musicMap = musics.stream()
+                    .collect(Collectors.toMap(Music::getId, s -> s));
+
+            List<Music> orderedMusics = request.getMusicIds().stream()
+                    .map(musicMap::get)
+                    .filter(Objects::nonNull)
+                    .collect(Collectors.toList());
+
+            playlist.getPlayListMusics().clear();
+
+            long seq = 1;
+            for (Music music : orderedMusics) {
+                PlayListMusic ps = PlayListMusic.builder()
+                        .playlist(playlist)
+                        .music(music)
+                        .sequence(seq++)
+                        .build();
+
+                playlist.getPlayListMusics().add(ps);
+            }
+        }
+
+        return playlistRepository.save(playlist);
+    }
+
+    public Playlist getPlaylistById(Long playlistId) {
+        return playlistRepository.findById(playlistId)
+                .orElseThrow(() -> new RuntimeException("Playlist not found"));
+    }
+
+
 }

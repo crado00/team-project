@@ -7,8 +7,8 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PlaylistRequest {
-    private String name;
-    private String description;
-    private String coverImageUrl;
+    private String title;
+    private String explanation;
+    private String ImageUrl;
     private List<MusicResponse> musics;
 }
