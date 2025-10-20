@@ -9,9 +9,10 @@ const EditProfile = ({ onClose, currentProfile }) => {
 
   const [formData, setFormData] = useState({
     username: "",
-    fullname: "",
-    residential_area: "",
-    bio: "",
+    fullName: "",
+    residentialArea: "",
+    selfIntroduction: "",
+    profileImageUrl: null,
   });
 
   const [loading, setLoading] = useState(false);
@@ -127,9 +128,9 @@ const EditProfile = ({ onClose, currentProfile }) => {
               Full Name
             </label>
             <input
-              id="fullname"
-              name="fullname"
-              value={formData.fullname}
+              id="fullName"
+              name="fullName"
+              value={formData.fullName}
               onChange={handleChange}
               className="border p-2 rounded-lg focus:ring-2 focus:ring-blue-400"
               placeholder="Enter full name"
@@ -141,9 +142,9 @@ const EditProfile = ({ onClose, currentProfile }) => {
               Residential Area
             </label>
             <input
-              id="residential_area"
-              name="residential_area"
-              value={formData.residential_area}
+              id="residentialArea"
+              name="residentialArea"
+              value={formData.residentialArea}
               onChange={handleChange}
               className="border p-2 rounded-lg focus:ring-2 focus:ring-blue-400"
               placeholder="Enter your area"
@@ -155,10 +156,10 @@ const EditProfile = ({ onClose, currentProfile }) => {
               Self Introduction
             </label>
             <textarea
-              id="bio"
-              name="bio"
+              id="selfIntroduction"
+              name="selfIntroduction"
               rows="4"
-              value={formData.bio}
+              value={formData.selfIntroduction}
               onChange={handleChange}
               className="border p-2 rounded-lg focus:ring-2 focus:ring-blue-400 resize-none"
               placeholder="Tell us about yourself"
