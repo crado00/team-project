@@ -1,37 +1,31 @@
 package com.example.backend.entity;
 
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
-@Entity
-@Getter @Setter
-@Table(name = "users")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
+@Entity
+@Table(name = "users")
 public class User {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(unique = true, nullable = false)
-    private String fullName;
-
-    @Column(unique = true, nullable = false)
     private String username;
-
-    @Column(unique = true, nullable = false)
-    private String email;
 
     @Column(nullable = false)
     private String password;
 
     @Column(nullable = false)
-    private String residentialArea;
+    private String fullName;
 
-    @Column(nullable = true)
-    private String selfIntroduction;
-
-    @Column(nullable = true)
     private String profileImageUrl;
-
+    private String residentialArea;
+    private String selfIntroduction;
 }
