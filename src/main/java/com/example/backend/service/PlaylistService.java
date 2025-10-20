@@ -30,17 +30,17 @@ public class PlaylistService {
                 .build();
 
 //        if (request.getMusics() != null) {
-//            request.getMusics().forEach(songDto -> {
+//            request.getMusics().forEach(musicDto -> {
 //                Music music = Music.builder()
-//                        .title(songDto.getTitle())
-//                        .artist(songDto.getArtist())
-//                        .album(songDto.getAlbum())
-//                        .genre(songDto.getGenre())
-//                        .duration(songDto.getDuration())
-//                        .youtubeUrl(songDto.getYoutubeUrl())
+//                        .title(musicDto.getTitle())
+//                        .artist(musicDto.getArtist())
+//                        .album(musicDto.getAlbum())
+//                        .genre(musicDto.getGenre())
+//                        .duration(musicDto.getDuration())
+//                        .youtubeUrl(musicDto.getYoutubeUrl())
 //                        .playlist(playlist)
 //                        .build();
-//                playlist.getMusics().add(song);
+//                playlist.getMusics().add(music);
 //            });
 //        }
 
@@ -72,12 +72,12 @@ public class PlaylistService {
 //    private PlaylistResponse mapToResponse(Playlist playlist) {
 //        List<MusicResponse> MusicResponses = playlist.getMusics().stream()
 //                .map(music -> new MusicResponse(
-//                        song.getTitle(),
-//                        song.getArtist(),
-//                        song.getAlbum(),
-//                        song.getGenre(),
-//                        song.getDuration(),
-//                        song.getYoutubeUrl()))
+//                        music.getTitle(),
+//                        music.getArtist(),
+//                        music.getAlbum(),
+//                        music.getGenre(),
+//                        music.getDuration(),
+//                        music.getYoutubeUrl()))
 //                .collect(Collectors.toList());
 
         return new PlaylistResponse(
