@@ -12,22 +12,22 @@ public class User {
     private Long id;
 
     @Column(unique = true, nullable = false)
-    private String FullName;
+    private String fullName;
 
     @Column(unique = true, nullable = false)
-    private String Username;
+    private String username;
 
     @Column(unique = true, nullable = false)
-    private String Email;
+    private String email;
 
     @Column(nullable = false)
     private String password;
 
     @Column(nullable = false)
-    private String ResidentialArea;
+    private String residentialArea;
 
     @Column(nullable = true)
-    private String SelfIntroduction;
+    private String selfIntroduction;
 
     @Column(nullable = true)
     private String profileImageUrl;
