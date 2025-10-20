@@ -31,7 +31,7 @@ public class AuthService {
             throw new RuntimeException("Invalid password");
         }
 
-        return user; // JWT 없이 User 정보 반환
+        return user;
     }
 
     // 회원가입
