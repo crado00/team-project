@@ -26,7 +26,7 @@ public class PlaylistResponse {
                 .imageUrl(playlist.getImageUrl())
                 .musics(playlist.getPlaylistMusics().stream()
                         .sorted((a, b) -> Long.compare(a.getSequence(), b.getSequence()))
-                        .map(ps -> MusicResponse.fromEntity(ps.getSong(), ps.getSequence()))
+                        .map(ps -> MusicResponse.fromEntity(ps.getMusic(), ps.getSequence()))
                         .collect(Collectors.toList()))
                 .build();
     }

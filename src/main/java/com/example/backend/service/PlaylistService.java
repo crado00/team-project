@@ -85,7 +85,6 @@ public class PlaylistService {
                 playlist.getTitle(),
                 playlist.getExplanation(),
                 playlist.getImageUrl(),
-                playlist.getUser().Username(),
                 MusicResponses
         );
     }
