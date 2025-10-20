@@ -29,20 +29,20 @@ public class PlaylistService {
                 .user(user)
                 .build();
 
-//        if (request.getMusics() != null) {
-//            request.getMusics().forEach(musicDto -> {
-//                Music music = Music.builder()
-//                        .title(musicDto.getTitle())
-//                        .artist(musicDto.getArtist())
-//                        .album(musicDto.getAlbum())
-//                        .genre(musicDto.getGenre())
-//                        .duration(musicDto.getDuration())
-//                        .youtubeUrl(musicDto.getYoutubeUrl())
-//                        .playlist(playlist)
-//                        .build();
-//                playlist.getMusics().add(music);
-//            });
-//        }
+        if (request.getMusics() != null) {
+            request.getMusics().forEach(musicDto -> {
+                Music music = Music.builder()
+                        .title(musicDto.getTitle())
+                        .artist(musicDto.getArtist())
+                        .album(musicDto.getAlbum())
+                        .genre(musicDto.getGenre())
+                        .duration(musicDto.getDuration())
+                        .youtubeUrl(musicDto.getYoutubeUrl())
+                        .playlist(playlist)
+                        .build();
+                playlist.getMusics().add(music);
+            });
+        }
 
         playlistRepository.save(playlist);
         return mapToResponse(playlist);
@@ -69,24 +69,24 @@ public class PlaylistService {
         playlistRepository.delete(playlist);
     }
 
-//    private PlaylistResponse mapToResponse(Playlist playlist) {
-//        List<MusicResponse> MusicResponses = playlist.getMusics().stream()
-//                .map(music -> new MusicResponse(
-//                        music.getTitle(),
-//                        music.getArtist(),
-//                        music.getAlbum(),
-//                        music.getGenre(),
-//                        music.getDuration(),
-//                        music.getYoutubeUrl()))
-//                .collect(Collectors.toList());
+    private PlaylistResponse mapToResponse(Playlist playlist) {
+        List<MusicResponse> MusicResponses = playlist.getMusics().stream()
+                .map(music -> new MusicResponse(
+                        music.getTitle(),
+                        music.getArtist(),
+                        music.getAlbum(),
+                        music.getGenre(),
+                        music.getDuration(),
+                        music.getYoutubeUrl()))
+                .collect(Collectors.toList());
 
         return new PlaylistResponse(
-            playlist.getId(),
+                playlist.getId(),
                 playlist.getName(),
-                        playlist.getDescription(),
-                        playlist.getCoverImageUrl(),
-                        playlist.getUser().getNickname(),
-    MusicResponses
+                playlist.getDescription(),
+                playlist.getCoverImageUrl(),
+                playlist.getUser().Username(),
+                MusicResponses
         );
-}
+    }
 }
