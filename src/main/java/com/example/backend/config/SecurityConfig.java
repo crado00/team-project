@@ -14,12 +14,10 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(csrf -> csrf.disable())
-                // 요청별 접근 권한 설정
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/**", "/api/public/**").permitAll()
                         .anyRequest().permitAll()
                 )
-                // 세션 기반 인증 (JWT 제거 시 기본값)
                 .formLogin(login -> login.disable())
                 .httpBasic(basic -> basic.disable());
 

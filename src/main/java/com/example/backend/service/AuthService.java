@@ -2,7 +2,6 @@ package com.example.backend.service;
 
 import com.example.backend.entity.User;
 import com.example.backend.repository.UserRepository;
-import com.example.backend.security.JwtUtil;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -12,29 +11,31 @@ import java.util.Optional;
 @Service
 public class AuthService {
     private final UserRepository userRepository;
-    private final JwtUtil jwtUtil;
     private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
     private final PasswordEncoder passwordEncoder;
 
-    public AuthService(UserRepository userRepository, JwtUtil jwtUtil, PasswordEncoder passwordEncoder) {
+    public AuthService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
-        this.jwtUtil = jwtUtil;
         this.passwordEncoder = passwordEncoder;
     }
 
-    public String login(String username, String password) {
+    // 로그인: 아이디와 비밀번호 확인
+    public User login(String username, String password) {
         Optional<User> userOpt = userRepository.findByUsername(username);
-        if (userOpt.isEmpty()) throw new RuntimeException("User not found");
+        if (userOpt.isEmpty()) {
+            throw new RuntimeException("User not found");
+        }
 
         User user = userOpt.get();
         if (!encoder.matches(password, user.getPassword())) {
             throw new RuntimeException("Invalid password");
         }
 
-        return jwtUtil.generateToken(user.getUsername());
+        return user; // JWT 없이 User 정보 반환
     }
 
-    public void signup(String username, String fullname, String email, String password) {
+    // 회원가입
+    public User signup(String username, String fullname, String email, String password) {
         User user = User.builder()
                 .username(username)
                 .fullName(fullname)
@@ -43,5 +44,6 @@ public class AuthService {
                 .build();
 
         userRepository.save(user);
+        return user;
     }
 }

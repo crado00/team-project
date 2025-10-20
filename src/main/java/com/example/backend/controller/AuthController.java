@@ -1,5 +1,6 @@
 package com.example.backend.controller;
 
+import com.example.backend.entity.User;
 import com.example.backend.service.AuthService;
 import lombok.Data;
 import org.springframework.http.ResponseEntity;
@@ -16,14 +17,14 @@ public class AuthController {
 
     @PostMapping("/signup")
     public ResponseEntity<?> signup(@RequestBody SignupRequest req) {
-        authService.signup(req.username, req.fullname, req.email, req.password);
-        return ResponseEntity.ok("회원가입 완료");
+        User user = authService.signup(req.getUsername(), req.getFullname(), req.getEmail(), req.getPassword());
+        return ResponseEntity.ok(user);
     }
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest req) {
-        String token = authService.login(req.username, req.password);
-        return ResponseEntity.ok(new JwtResponse(token));
+        User user = authService.login(req.getUsername(), req.getPassword());
+        return ResponseEntity.ok(user);
     }
 
     @Data
@@ -38,10 +39,5 @@ public class AuthController {
     static class LoginRequest {
         private String username;
         private String password;
-    }
-
-    @Data
-    static class JwtResponse {
-        private final String token;
     }
 }
