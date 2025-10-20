@@ -9,11 +9,14 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/auth")
 public class AuthController {
     private final AuthService authService;
-    public AuthController(AuthService authService) { this.authService = authService; }
+
+    public AuthController(AuthService authService) {
+        this.authService = authService;
+    }
 
     @PostMapping("/signup")
     public ResponseEntity<?> signup(@RequestBody SignupRequest req) {
-        authService.signup(req.username, req.password);
+        authService.signup(req.username, req.fullname, req.email, req.password);
         return ResponseEntity.ok("회원가입 완료");
     }
 
@@ -24,9 +27,21 @@ public class AuthController {
     }
 
     @Data
-    static class SignupRequest { String username; String password; }
+    static class SignupRequest {
+        private String username;
+        private String fullname;
+        private String email;
+        private String password;
+    }
+
     @Data
-    static class LoginRequest { String username; String password; }
+    static class LoginRequest {
+        private String username;
+        private String password;
+    }
+
     @Data
-    static class JwtResponse { final String token; }
+    static class JwtResponse {
+        private final String token;
+    }
 }

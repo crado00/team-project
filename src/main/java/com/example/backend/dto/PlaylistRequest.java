@@ -4,10 +4,11 @@ import lombok.*;
 import java.util.List;
 
 @Getter @Setter
-@NoArgsConstructor @AllArgsConstructor
+@NoArgsConstructor
+@AllArgsConstructor
 public class PlaylistRequest {
     private String name;
     private String description;
     private String coverImageUrl;
-    //  private List<MusicResponse> songs;
+    private List<MusicResponse> musics;
 }

@@ -82,9 +82,9 @@ public class PlaylistService {
 
         return new PlaylistResponse(
                 playlist.getId(),
-                playlist.getName(),
-                playlist.getDescription(),
-                playlist.getCoverImageUrl(),
+                playlist.getTitle(),
+                playlist.getExplanation(),
+                playlist.getImageUrl(),
                 playlist.getUser().Username(),
                 MusicResponses
         );

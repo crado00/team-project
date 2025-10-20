@@ -4,6 +4,7 @@ import com.example.backend.entity.User;
 import com.example.backend.repository.UserRepository;
 import com.example.backend.security.JwtUtil;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -13,10 +14,12 @@ public class AuthService {
     private final UserRepository userRepository;
     private final JwtUtil jwtUtil;
     private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+    private final PasswordEncoder passwordEncoder;
 
-    public AuthService(UserRepository userRepository, JwtUtil jwtUtil) {
+    public AuthService(UserRepository userRepository, JwtUtil jwtUtil, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.jwtUtil = jwtUtil;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public String login(String username, String password) {
@@ -31,13 +34,14 @@ public class AuthService {
         return jwtUtil.generateToken(user.getUsername());
     }
 
-    public void signup(String username, String password) {
-        if (userRepository.existsByUsername(username))
-            throw new RuntimeException("Username already exists");
+    public void signup(String username, String fullname, String email, String password) {
+        User user = User.builder()
+                .username(username)
+                .fullName(fullname)
+                .email(email)
+                .password(passwordEncoder.encode(password))
+                .build();
 
-        User user = new User();
-        user.setUsername(username);
-        user.setPassword(encoder.encode(password));
         userRepository.save(user);
     }
 }
