@@ -19,7 +19,6 @@ public class AuthService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    // 로그인: 아이디와 비밀번호 확인
     public User login(String username, String password) {
         Optional<User> userOpt = userRepository.findByUsername(username);
         if (userOpt.isEmpty()) {
