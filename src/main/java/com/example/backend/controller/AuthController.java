@@ -1,6 +1,5 @@
 package com.example.backend.controller;
 
-import com.example.backend.entity.User;
 import com.example.backend.service.AuthService;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
