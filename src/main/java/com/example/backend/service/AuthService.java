@@ -5,7 +5,6 @@ import com.example.backend.repository.UserRepository;
 import com.example.backend.security.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -28,15 +27,15 @@ public class AuthService {
         return userRepository.save(user);
     }
 
-    public String login(String username, String password) {
-        User user = userRepository.findByUsername(username)
+    public String login(String email, String password) {
+        User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 사용자입니다."));
 
         if (!passwordEncoder.matches(password, user.getPassword())) {
             throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
         }
 
-        return jwtUtil.generateToken(username);
+        return jwtUtil.generateToken(email);
     }
 
     public void logout(String token) {

@@ -22,7 +22,7 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest req) {
-        String token = authService.login(req.username, req.password);
+        String token = authService.login(req.email, req.password);
         return ResponseEntity.ok(new JwtResponse(token));
     }
 
@@ -42,7 +42,7 @@ public class AuthController {
 
     @Data
     static class LoginRequest {
-        private String username;
+        private String email;
         private String password;
     }
 
