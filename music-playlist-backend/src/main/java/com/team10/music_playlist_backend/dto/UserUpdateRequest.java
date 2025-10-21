@@ -11,10 +11,6 @@ public class UserUpdateRequest {
     @NotBlank(message = "닉네임(username)은 필수입니다.")
     private String username;
 
-    @Email(message = "이메일 형식이 올바르지 않습니다.")
-    @NotBlank(message = "이메일은 필수입니다.")
-    private String email;
-
     private String fullName;
     private String residentialArea;
     private String selfIntroduction;

@@ -29,12 +29,8 @@ public class UserService {
         if (userRepository.existsByUsernameAndIdNot(req.getUsername(), id)) {
             throw new IllegalArgumentException("이미 사용 중인 닉네임입니다.");
         }
-        if (!u.getEmail().equals(req.getEmail()) && userRepository.existsByEmail(req.getEmail())) {
-            throw new IllegalArgumentException("이미 사용 중인 이메일입니다.");
-        }
 
         u.setUsername(req.getUsername());
-        u.setEmail(req.getEmail());
         u.setFullName(req.getFullName());
         u.setResidentialArea(req.getResidentialArea());
         u.setSelfIntroduction(req.getSelfIntroduction());
