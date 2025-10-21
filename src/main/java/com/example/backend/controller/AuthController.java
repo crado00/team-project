@@ -21,13 +21,13 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest req) {
-        String token = authService.login(req.email, req.password);
-        return ResponseEntity.ok(new JwtResponse(token));
+        String accessToken = authService.login(req.email, req.password);
+        return ResponseEntity.ok(new JwtResponse(accessToken));
     }
 
     @PostMapping("/logout")
-    public ResponseEntity<?> logout(@RequestHeader("Authorization") String token) {
-        authService.logout(token);
+    public ResponseEntity<?> logout(@RequestHeader("Authorization") String accessToken) {
+        authService.logout(accessToken);
         return ResponseEntity.ok("로그아웃 완료");
     }
 
@@ -47,6 +47,6 @@ public class AuthController {
 
     @Data
     static class JwtResponse {
-        private final String token;
+        private final String accessToken;
     }
 }

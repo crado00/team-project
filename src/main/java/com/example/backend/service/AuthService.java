@@ -35,9 +35,9 @@ public class AuthService {
             throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
         }
 
-        return jwtUtil.generateToken(email);
+        return jwtUtil.generateAccessToken(email);
     }
 
-    public void logout(String token) {
+    public void logout(String accessToken) {
     }
 }
