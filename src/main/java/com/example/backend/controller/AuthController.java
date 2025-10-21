@@ -3,28 +3,33 @@ package com.example.backend.controller;
 import com.example.backend.entity.User;
 import com.example.backend.service.AuthService;
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/auth")
 public class AuthController {
-    private final AuthService authService;
 
-    public AuthController(AuthService authService) {
-        this.authService = authService;
-    }
+    private final AuthService authService;
 
     @PostMapping("/signup")
     public ResponseEntity<?> signup(@RequestBody SignupRequest req) {
-        User user = authService.signup(req.getUsername(), req.getFullname(), req.getEmail(), req.getPassword());
-        return ResponseEntity.ok(user);
+        authService.signup(req.username, req.fullname, req.email, req.password);
+        return ResponseEntity.ok("회원가입이 완료되었습니다.");
     }
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest req) {
-        User user = authService.login(req.getUsername(), req.getPassword());
-        return ResponseEntity.ok(user);
+        String token = authService.login(req.username, req.password);
+        return ResponseEntity.ok(new JwtResponse(token));
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity<?> logout(@RequestHeader("Authorization") String token) {
+        authService.logout(token);
+        return ResponseEntity.ok("로그아웃 완료");
     }
 
     @Data
@@ -39,5 +44,10 @@ public class AuthController {
     static class LoginRequest {
         private String username;
         private String password;
+    }
+
+    @Data
+    static class JwtResponse {
+        private final String token;
     }
 }

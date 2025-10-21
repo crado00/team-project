@@ -2,6 +2,8 @@ package com.example.backend.service;
 
 import com.example.backend.entity.User;
 import com.example.backend.repository.UserRepository;
+import com.example.backend.security.JwtUtil;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -9,31 +11,13 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class AuthService {
+
     private final UserRepository userRepository;
-    private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-    private final PasswordEncoder passwordEncoder;
+    private final JwtUtil jwtUtil;
+    private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-    public AuthService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
-        this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
-    }
-
-    public User login(String username, String password) {
-        Optional<User> userOpt = userRepository.findByUsername(username);
-        if (userOpt.isEmpty()) {
-            throw new RuntimeException("User not found");
-        }
-
-        User user = userOpt.get();
-        if (!encoder.matches(password, user.getPassword())) {
-            throw new RuntimeException("Invalid password");
-        }
-
-        return user;
-    }
-
-    // 회원가입
     public User signup(String username, String fullname, String email, String password) {
         User user = User.builder()
                 .username(username)
@@ -41,8 +25,20 @@ public class AuthService {
                 .email(email)
                 .password(passwordEncoder.encode(password))
                 .build();
+        return userRepository.save(user);
+    }
 
-        userRepository.save(user);
-        return user;
+    public String login(String username, String password) {
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 사용자입니다."));
+
+        if (!passwordEncoder.matches(password, user.getPassword())) {
+            throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
+        }
+
+        return jwtUtil.generateToken(username);
+    }
+
+    public void logout(String token) {
     }
 }
