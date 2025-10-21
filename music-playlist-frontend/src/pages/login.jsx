@@ -22,9 +22,9 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const loginData = isEmail(formData.emailOrUsername)
-        ? { email: formData.emailOrUsername, password: formData.password }
-        : { username: formData.emailOrUsername, password: formData.password };
+      const loginData = isEmail(formData.email)
+        ? { email: formData.email, password: formData.password }
+        : { username: formData.email, password: formData.password };
 
       console.log(loginData);
       await login(loginData);
