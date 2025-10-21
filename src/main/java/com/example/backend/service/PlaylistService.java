@@ -5,8 +5,10 @@ import com.example.backend.entity.*;
 import com.example.backend.exception.ResourceNotFoundException;
 import com.example.backend.repository.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Objects;
@@ -139,6 +141,23 @@ public class PlaylistService {
     public Playlist getPlaylistById(Long playlistId) {
         return playlistRepository.findById(playlistId)
                 .orElseThrow(() -> new RuntimeException("Playlist not found"));
+    }
+
+    @Transactional
+    public void removeMusicFromPlaylist(Long playlistId, Long musicId, String username) {
+        Playlist playList = playlistRepository.findById(playlistId)
+                .orElseThrow(() -> new ResourceNotFoundException("플레이리스트를 찾을 수 없습니다."));
+
+        // 자신이 만든 플레이리스트인지 확인
+        if (!playList.getUser().getUsername().equals(username)) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "이 플레이리스트를 수정할 권한이 없습니다.");
+        }
+
+        Music music = musicRepository.findById(musicId)
+                .orElseThrow(() -> new ResourceNotFoundException("음악을 찾을 수 없습니다."));
+
+        playList.getMusics().remove(music);
+        playlistRepository.save(playList);
     }
 
 
