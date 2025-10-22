@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import ProfileInfo from "../components/profile/ProfileInfo";
 import ProfilePlayList from "../components/profile/ProfilePlayList";
 import useUserStore from "../store/userstore";
-import EditProfile from "./editProfile";
+import EditProfile from "../components/profile/editProfile";
 
 const Profile = () => {
   const { userId } = useParams();
