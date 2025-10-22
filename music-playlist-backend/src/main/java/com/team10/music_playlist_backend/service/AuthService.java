@@ -1,5 +1,6 @@
 package com.team10.music_playlist_backend.service;
 
+import com.team10.music_playlist_backend.dto.LoginResponse;
 import com.team10.music_playlist_backend.entity.User;
 import com.team10.music_playlist_backend.repository.UserRepository;
 import com.team10.music_playlist_backend.security.JwtUtil;
@@ -27,7 +28,7 @@ public class AuthService {
         return userRepository.save(user);
     }
 
-    public String login(String email, String password) {
+    public LoginResponse login(String email, String password) {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 사용자입니다."));
 
@@ -35,7 +36,9 @@ public class AuthService {
             throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
         }
 
-        return jwtUtil.generateAccessToken(email);
+        String token = jwtUtil.generateAccessToken(email);
+
+        return new LoginResponse(token, user);
     }
 
     public void logout(String accessToken) {

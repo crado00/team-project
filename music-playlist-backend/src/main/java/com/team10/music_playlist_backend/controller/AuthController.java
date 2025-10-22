@@ -1,5 +1,7 @@
 package com.team10.music_playlist_backend.controller;
 
+import com.team10.music_playlist_backend.dto.LoginResponse;
+import com.team10.music_playlist_backend.dto.UserResponse;
 import com.team10.music_playlist_backend.service.AuthService;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
 
     private final AuthService authService;
-
     @PostMapping("/signup")
     public ResponseEntity<?> signup(@RequestBody SignupRequest req) {
         authService.signup(req.username, req.fullname, req.email, req.password);
@@ -21,8 +22,8 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest req) {
-        String accessToken = authService.login(req.email, req.password);
-        return ResponseEntity.ok(new JwtResponse(accessToken));
+        LoginResponse loginResponse = authService.login(req.getEmail(), req.getPassword());
+        return ResponseEntity.ok(loginResponse);
     }
 
     @PostMapping("/logout")
@@ -48,5 +49,6 @@ public class AuthController {
     @Data
     static class JwtResponse {
         private final String accessToken;
+        private final UserResponse user;
     }
 }
