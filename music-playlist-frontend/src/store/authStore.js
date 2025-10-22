@@ -7,6 +7,7 @@ const useAuthStore = create((set) => ({
   loading: false,
   error: null,
 
+  
   login: async (userData) => {
     set({ loading: true, error: null });
     try {
@@ -25,6 +26,7 @@ const useAuthStore = create((set) => ({
       throw err;
     }
   },
+
 
   register: async (userData) => {
     set({ loading: true, error: null });

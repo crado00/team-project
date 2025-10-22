@@ -10,7 +10,7 @@ const Login = () => {
   const { login, loading, error } = useAuthStore();
 
   const [formData, setFormData] = useState({
-    emailOrUsername: "",
+    email: "",
     password: "",
   });
 
